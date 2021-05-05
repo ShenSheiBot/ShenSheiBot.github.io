@@ -6,13 +6,94 @@
     <meta name="description" content="这是一个甚谁语录的非营利性网站，旨在传播甚谁思想和引发思辨。">
     <title>甚谁语录</title>
     <link rel="stylesheet" href="google.css">
+    <link rel="stylesheet" href="slides.css">
+    <script src="text.js"></script>
+    <script src="slides.js"></script>
     <script>
+        function hide() {
+            document.getElementById("avatar").style.display = "none";
+            document.getElementById("switcher").style.display = "none";
+            document.getElementById("resultcount").style.display = "none";
+            document.getElementById("container").style.display = "block";
+        }
+
         function swap() {
-            document.getElementById('quote').setAttribute('src', 'quotes/' + Math.round(Math.random() * 72) + '.jpg');
+            hide();
+            removeSlides();
+            addSlide("quotes/" + Math.round(Math.random() * 91) + ".jpg");
+            showSlides(0);
         }
 
         function latest() {
-            document.getElementById('quote').setAttribute('src', 'quotes/' + 70 + '.jpg');
+            hide();
+            removeSlides();
+            addSlide("quotes/" + 70 + ".jpg");
+            showSlides(0);
+        }
+
+        function removeSlides() {
+            container = document.getElementById("container");
+            switcher = document.getElementById("switcher");
+            container.innerHTML = "";
+            switcher.innerHTML = "";
+        }
+
+        function addSlide(img_link) {
+            container = document.getElementById("container");
+            switcher = document.getElementById("switcher");
+            N = container.childElementCount;
+
+            var slide = document.createElement("div");
+            slide.className = "mySlides fade";
+            var img = document.createElement("img");
+            img.src = img_link;
+            img.className = "halfsize";
+            slide.appendChild(img);
+            container.appendChild(slide);
+
+            /*<div class="mySlides fade">
+                <img src="quotes/0.jpg" class="halfsize">
+            </div>*/
+
+            var dot = document.createElement("span");
+            dot.className = "dot";
+            dot.setAttribute("onclick", "currentSlide(" + (N+1) + ")");
+            switcher.appendChild(dot);
+
+            // <span class="dot" onclick="currentSlide(1)"></span>
+        }
+
+        function search() {
+            count = document.getElementById("resultcount");
+            s = document.getElementById("searchinput").value;
+            s = s.replace(/\s/g, '')
+            if (!s.length) {
+                return; // contain only whitespaces
+            }
+            hide();
+            removeSlides();
+            res = [];
+            for (var i = 0; i < text.length; i++) {
+                if (text[i].includes(s)) {
+                    res.push(i);
+                }
+            }
+            document.getElementById("resultcount").style.display = "block";
+            document.getElementById("switcher").style.display = "block";
+            
+            if (!res.length) {
+                count.innerHTML = "Your search - <b>" + s + "</b> - did not match any quotes.";
+                count.style.color = "#000000";
+            } else {
+                count.innerHTML = res.length + " results";
+                count.style.color = "#70757a";
+
+                for (var i = 0; i < res.length; i++) {
+                    addSlide('quotes/' + res[i] + '.jpg');
+                }
+                showSlides(0);
+            }
+            return res;
         }
     </script>
 </head>
@@ -43,7 +124,7 @@
                 <div jscontroller="JGHKP" class="a4bIc" jsname="gLFyf" jsaction="h5M12e;input:d3sQLd;blur:jI3wzf">
                     <style data-iml="1620169376008">.gLFyf{background-color:transparent;border:none;margin:0;padding:0;color:rgba(0,0,0,.87);word-wrap:break-word;outline:none;display:flex;flex:100%;-webkit-tap-highlight-color:transparent;margin-top:-37px;height:34px;font-size:16px}.minidiv .gLFyf{margin-top:-35px;}.a4bIc{display:flex;flex:1;flex-wrap:wrap}.pR49Ae{color:transparent;flex:100%;white-space:pre;height:34px}.pR49Ae span{repeat-x scroll 0 100% transparent;padding:0 0 10px 0;}</style>
                     <div class="pR49Ae gsfi" jsname="vdLsw">
-                        <input class="gLFyf gsfi" jsaction="paste:puy29d;" maxlength="2048" name="q" type="text" aria-autocomplete="both" aria-haspopup="false" autocapitalize="off" autocomplete="off" autocorrect="off" autofocus="" role="combobox" spellcheck="false" title="Search" value="" aria-label="Search" data-ved="0ahUKEwj9kfCgkbHwAhWMmuAKHZcvAaQQ39UDCAg" placeholder="Coming Soon">
+                        <input id="searchinput" class="gLFyf gsfi" jsaction="paste:puy29d;" maxlength="2048" name="q" type="text" aria-autocomplete="both" aria-haspopup="false" autocapitalize="off" autocomplete="off" autocorrect="off" autofocus="" role="combobox" spellcheck="false" title="Search" value="" aria-label="Search" data-ved="0ahUKEwj9kfCgkbHwAhWMmuAKHZcvAaQQ39UDCAg" placeholder="Coming Soon">
                     </div>
                 </div>
             </div>
@@ -53,12 +134,25 @@
 
 
 <div class="buttons">
+    <button onclick="search()">Search</button>
     <button onclick="latest()">Latest Quote</button>
     <button onclick="swap()">I'm Feeling Lucky</button>
 </div>
 
-<img id="quote" class="halfsize" src="img/avatar.jpg">
-  
+<p id=resultcount></p>
+
+<img id="avatar" class="halfsize" src="img/avatar.jpg">
+
+
+<!-- Slideshow container -->
+<div id="container" class="slideshow-container">
+</div>
+<br>
+
+<!-- The dots/circles -->
+<div id="switcher" style="text-align:center">
+</div>
+
 </div>
 
 </body>
