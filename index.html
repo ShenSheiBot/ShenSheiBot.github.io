@@ -17,17 +17,18 @@
             document.getElementById("container").style.display = "block";
         }
 
+        var num_quotes = 99;
         function swap() {
             hide();
             removeSlides();
-            addSlide("quotes/" + Math.round(Math.random() * 98) + ".jpg");
+            addSlide("quotes/" + Math.round(Math.random() * num_quotes) + ".jpg");
             showSlides(0);
         }
 
         function latest() {
             hide();
             removeSlides();
-            addSlide("quotes/" + 97 + ".jpg");
+            addSlide("quotes/" + (num_quotes - 1) + ".jpg");
             showSlides(0);
         }
 
