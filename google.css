@@ -47,9 +47,12 @@ button {
 a:hover {
   text-decoration:underline;
 }
+
 button:hover {
-  color:black;
-  border:1px solid #D9D9D9;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  color: #202124;
 }
 
 .halfsize {
@@ -62,4 +65,13 @@ p {
   border: 0;
   margin-top:-30px;
   margin-bottom:30px;
+}
+
+.z1asCe {
+  display: inline-block;
+  fill: currentColor;
+  height: 24px;
+  line-height: 24px;
+  position: relative;
+  width: 24px;
 }
